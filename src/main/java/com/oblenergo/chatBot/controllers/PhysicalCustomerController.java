@@ -16,11 +16,11 @@ import com.oblenergo.chatBot.dto.IndicatorDTO;
 import com.oblenergo.chatBot.dto.IndicatorOneZoneDTO;
 import com.oblenergo.chatBot.dto.IndicatorThreeZoneDTO;
 import com.oblenergo.chatBot.dto.IndicatorTwoZoneDTO;
-import com.oblenergo.chatBot.models.Bill;
 import com.oblenergo.chatBot.models.PhysCustomer;
 import com.oblenergo.chatBot.models.TurnOffReportPhys;
 import com.oblenergo.chatBot.repositories.PhysCustomerRepository;
 import com.oblenergo.chatBot.repositories.TurnOffreportPhysRepository;
+import com.oblenergo.chatBot.services.BillService;
 import com.oblenergo.chatBot.services.IndicatorService;
 
 @RestController
@@ -35,6 +35,9 @@ public class PhysicalCustomerController {
 
   @Autowired
   private IndicatorService indicatorService;
+  
+  @Autowired
+  private BillService billService;
 
   @GetMapping
   public PhysCustomer checkId(@PathVariable String accountNumber) {
@@ -49,8 +52,8 @@ public class PhysicalCustomerController {
   }
 
   @GetMapping("/bill")
-  public Bill getBillForPhysicalCustomer(@PathVariable String accountNumber) {
-    return new Bill("test account" + accountNumber, "srako-test");
+  public ResponseEntity<String> getBillForPhysicalCustomer(@PathVariable String accountNumber) {
+    return billService.getBill(accountNumber);
   }
 
   @PostMapping("/indicator/onezone")
@@ -64,7 +67,6 @@ public class PhysicalCustomerController {
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(oneZoneDTO.getIndicator());
-    indicatorDTO.setPhoneNumber("0964455666");
     return indicatorService.saveIndicator(indicatorDTO);
   }
 
@@ -79,7 +81,6 @@ public class PhysicalCustomerController {
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(twoZoneDTO.getDayIndicator() + "/" + twoZoneDTO.getNightIndicator());
-    indicatorDTO.setPhoneNumber("0964455666");
     return indicatorService.saveIndicator(indicatorDTO);
   }
 
@@ -95,7 +96,6 @@ public class PhysicalCustomerController {
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(threeZoneDTO.getPeakIndicator() + "/" + threeZoneDTO.getHalfPeakIndicator() + "/"
         + threeZoneDTO.getNightIndicator());
-    indicatorDTO.setPhoneNumber("0964455666");
     return indicatorService.saveIndicator(indicatorDTO);
   }
 

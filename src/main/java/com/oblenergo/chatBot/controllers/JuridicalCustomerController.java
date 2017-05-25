@@ -37,12 +37,4 @@ public class JuridicalCustomerController {
     return turnOffReportJur != null ? turnOffReportJur : null;
   }
   
-  
-  @GetMapping("/bill")
-  public Bill getBillforJuridicalCustomer(@PathVariable String contractNumber,
-      @PathVariable String counterNumber) {
-    return new Bill("test account" + contractNumber+counterNumber, "srako-test");
-  }
-
-
 }

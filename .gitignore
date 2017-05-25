@@ -10,7 +10,6 @@ Thumbs.db
 
 # Build Artifacts
 
-.gradle/
 build/
 target/
 bin/
@@ -36,5 +35,4 @@ log.txt
 
 nb-configuration.xml
 datasource.properties
-sapclient.properties
-sap.wsdl
+serviceSecure.properties
