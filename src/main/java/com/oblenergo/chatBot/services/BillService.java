@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class BillService {
   
-  private static final String REGEXPATTERN = "amountToPay=\"[+-]?\\d+";
+  private static final String REGEXPATTERN = "amountToPay=\"[+-]?(\\d+)([\\.]?)(\\d*)";
 
   @Value("${bill.service.url}")
   private String url;

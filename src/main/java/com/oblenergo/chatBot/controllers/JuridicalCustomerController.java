@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oblenergo.chatBot.models.Bill;
 import com.oblenergo.chatBot.models.JuridicalCustomer;
 import com.oblenergo.chatBot.models.TurnOffReportJur;
 import com.oblenergo.chatBot.repositories.JuridicalCustomerRepository;
