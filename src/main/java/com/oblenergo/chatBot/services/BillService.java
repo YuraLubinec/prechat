@@ -1,6 +1,7 @@
 package com.oblenergo.chatBot.services;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,9 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class BillService {
 
   private static final String REGEXPATTERN = "amountToPay=\"[+-]?(\\d+)([\\.]?)(\\d*)";
-  private static final int LAST_MONTH_OF_THE_YEAR = 12;
   private static final int LENTH_TO_TRIM = 13;
-  private static final int FIRST_MONTH_OF_THE_YEAR = 1;
 
   @Value("${bill.service.url}")
   private String url;
@@ -60,8 +59,8 @@ public class BillService {
 
     LocalDate localDateNow = LocalDate.now();
     int month = localDateNow.getMonthValue();
-    if (localDateNow.getMonthValue() == LAST_MONTH_OF_THE_YEAR) {
-      LocalDate endDateExclusive = LocalDate.of(localDateNow.getYear(), FIRST_MONTH_OF_THE_YEAR, endPeriodDate);
+    if (localDateNow.getMonth().equals(Month.DECEMBER)) {
+      LocalDate endDateExclusive = LocalDate.of(localDateNow.getYear(), Month.JANUARY, endPeriodDate);
       LocalDate startDateInclusive = LocalDate.of(localDateNow.getYear(), month, beginPeriodDate);
       return localDateNow.isBefore(endDateExclusive) && localDateNow.isAfter(startDateInclusive);
     } else {

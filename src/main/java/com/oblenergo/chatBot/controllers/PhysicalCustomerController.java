@@ -16,12 +16,14 @@ import com.oblenergo.chatBot.dto.IndicatorDTO;
 import com.oblenergo.chatBot.dto.IndicatorOneZoneDTO;
 import com.oblenergo.chatBot.dto.IndicatorThreeZoneDTO;
 import com.oblenergo.chatBot.dto.IndicatorTwoZoneDTO;
+import com.oblenergo.chatBot.enums.Reasons;
 import com.oblenergo.chatBot.models.PhysCustomer;
 import com.oblenergo.chatBot.models.TurnOffReportPhys;
 import com.oblenergo.chatBot.repositories.PhysCustomerRepository;
 import com.oblenergo.chatBot.repositories.TurnOffreportPhysRepository;
 import com.oblenergo.chatBot.services.BillService;
 import com.oblenergo.chatBot.services.IndicatorService;
+import com.oblenergo.chatBot.services.StatisticService;
 
 @RestController
 @RequestMapping("/customer/physical/{accountNumber}")
@@ -38,6 +40,9 @@ public class PhysicalCustomerController {
   
   @Autowired
   private BillService billService;
+  
+  @Autowired
+  private StatisticService statisticService;
 
   @GetMapping
   public PhysCustomer checkId(@PathVariable String accountNumber) {
@@ -47,12 +52,15 @@ public class PhysicalCustomerController {
 
   @GetMapping("/report")
   public TurnOffReportPhys getEnergyReport(@PathVariable String accountNumber) {
+    
     TurnOffReportPhys turnOffReportPhys = turnOffreportPhysRepository.findByAccountNumber(accountNumber);
     return turnOffReportPhys != null ? turnOffReportPhys : null;
   }
 
   @GetMapping("/bill")
   public ResponseEntity<String> getBillForPhysicalCustomer(@PathVariable String accountNumber) {
+    
+    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.BILL);
     return billService.getBill(accountNumber);
   }
 
