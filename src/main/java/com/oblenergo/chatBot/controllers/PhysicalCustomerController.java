@@ -44,6 +44,7 @@ public class PhysicalCustomerController {
   @Autowired
   private StatisticService statisticService;
 
+
   @GetMapping
   public PhysCustomer checkId(@PathVariable String accountNumber) {
     PhysCustomer customer = physCustomerRepository.findByAccountNumber(accountNumber);
