@@ -8,6 +8,9 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Data;
+
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IndicatorOneZoneDTO implements Serializable {
 
@@ -16,15 +19,5 @@ public class IndicatorOneZoneDTO implements Serializable {
   @NotBlank(message="Не може бути пустим")
   @Pattern(regexp="\\d+", message="Дозволено тільки цифри")
   private String indicator;
-
-  public String getIndicator() {
-    return indicator;
-  }
-
-  public void setIndicator(String indicator) {
-    this.indicator = indicator;
-  }
-  
-  
 
 }

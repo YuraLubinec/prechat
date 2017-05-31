@@ -27,8 +27,8 @@ public class StatisticServiceImpl implements StatisticService {
   @Autowired
   private PhysCustomerRepository physCustomerRepository;
   
-  @Override
   @Async
+  @Override
   public void saveStatisticForPhysCustomer(String accountNumber, Reasons reason){
 
     Statistic statistic = new Statistic();
@@ -40,8 +40,8 @@ public class StatisticServiceImpl implements StatisticService {
     }
   }
   
-  @Override
   @Async
+  @Override
   public void saveStatisticForJurCustomer(String contractNumber, String counterNumber, Reasons reason){
 
     Statistic statistic = new Statistic();

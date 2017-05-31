@@ -8,6 +8,9 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Data;
+
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IndicatorThreeZoneDTO implements Serializable {
 
@@ -24,29 +27,5 @@ public class IndicatorThreeZoneDTO implements Serializable {
   @NotBlank(message = "Не може бути пустим")
   @Pattern(regexp = "\\d+", message = "Дозволено тільки цифри")
   private String nightIndicator;
-
-  public String getPeakIndicator() {
-    return peakIndicator;
-  }
-
-  public void setPeakIndicator(String peakIndicator) {
-    this.peakIndicator = peakIndicator;
-  }
-
-  public String getHalfPeakIndicator() {
-    return halfPeakIndicator;
-  }
-
-  public void setHalfPeakIndicator(String halfPeakIndicator) {
-    this.halfPeakIndicator = halfPeakIndicator;
-  }
-
-  public String getNightIndicator() {
-    return nightIndicator;
-  }
-
-  public void setNightIndicator(String nightIndicator) {
-    this.nightIndicator = nightIndicator;
-  }
-
+  
 }
