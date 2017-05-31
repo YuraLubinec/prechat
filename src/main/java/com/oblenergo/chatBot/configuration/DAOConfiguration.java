@@ -38,14 +38,15 @@ public class DAOConfiguration {
   @Primary
   @ConfigurationProperties(prefix = "datasource.jdbc")
   public DataSourceProperties dataSourceProperties() {
+
     return new DataSourceProperties();
   }
 
   @Bean
   public DataSource dataSource(DataSourceProperties dataSourceProperties) {
-    HikariDataSource dataSource = (HikariDataSource) DataSourceBuilder.create()
-        .driverClassName(dataSourceProperties.getDriverClassName()).url(dataSourceProperties.getUrl())
-        .username(dataSourceProperties.getUsername()).password(dataSourceProperties.getPassword())
+
+    HikariDataSource dataSource = (HikariDataSource) DataSourceBuilder.create().driverClassName(dataSourceProperties.getDriverClassName())
+        .url(dataSourceProperties.getUrl()).username(dataSourceProperties.getUsername()).password(dataSourceProperties.getPassword())
         .type(HikariDataSource.class).build();
     dataSource.setMaximumPoolSize(Integer.parseInt(environment.getProperty("datasource.jdbc.maxPoolSize")));
     return dataSource;
@@ -53,6 +54,7 @@ public class DAOConfiguration {
 
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter adapter) throws NamingException {
+
     LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
     factoryBean.setJpaVendorAdapter(adapter);
     factoryBean.setDataSource(dataSource);
@@ -60,14 +62,16 @@ public class DAOConfiguration {
     factoryBean.setJpaProperties(jpaProperties());
     return factoryBean;
   }
-  
+
   @Bean
   public JpaVendorAdapter jpaVendorAdapter() {
-      HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-      return hibernateJpaVendorAdapter;
+
+    HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+    return hibernateJpaVendorAdapter;
   }
 
   private Properties jpaProperties() {
+
     Properties properties = new Properties();
     properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
     properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
@@ -78,6 +82,7 @@ public class DAOConfiguration {
   @Bean
   @Autowired
   public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+
     JpaTransactionManager txManager = new JpaTransactionManager();
     txManager.setEntityManagerFactory(emf);
     return txManager;

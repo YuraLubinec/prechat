@@ -22,26 +22,23 @@ public class JuridicalCustomerController {
 
   @Autowired
   private JuridicalCustomerRepository juridicalCustomerRepository;
-  
+
   @Autowired
   private StatisticService statisticService;
 
   @GetMapping
-  public JuridicalCustomer checkContractNumber(@PathVariable String contractNumber,
-      @PathVariable String counterNumber) {
-   
-    JuridicalCustomer juridicalCustomer = juridicalCustomerRepository
-        .findByContractNumberAndCounterNumber(contractNumber, counterNumber);
+  public JuridicalCustomer checkContractNumber(@PathVariable String contractNumber, @PathVariable String counterNumber) {
+
+    JuridicalCustomer juridicalCustomer = juridicalCustomerRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
     return juridicalCustomer != null ? juridicalCustomer : null;
   }
-  
+
   @GetMapping("/report")
-  public TurnOffReportJur getEnergyReport(@PathVariable String contractNumber,
-      @PathVariable String counterNumber) {
-   
-    TurnOffReportJur turnOffReportJur =  juReportJurRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
+  public TurnOffReportJur getEnergyReport(@PathVariable String contractNumber, @PathVariable String counterNumber) {
+    
     statisticService.saveStatisticForJurCustomer(contractNumber, counterNumber, Reasons.NO_ENERGY_REPORT_JUR);
+    TurnOffReportJur turnOffReportJur = juReportJurRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
     return turnOffReportJur != null ? turnOffReportJur : null;
   }
-  
+
 }

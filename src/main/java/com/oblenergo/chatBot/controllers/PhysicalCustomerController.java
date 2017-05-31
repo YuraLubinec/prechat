@@ -37,10 +37,10 @@ public class PhysicalCustomerController {
 
   @Autowired
   private IndicatorService indicatorService;
-  
+
   @Autowired
   private BillService billService;
-  
+
   @Autowired
   private StatisticService statisticService;
 
@@ -52,26 +52,27 @@ public class PhysicalCustomerController {
 
   @GetMapping("/report")
   public TurnOffReportPhys getEnergyReport(@PathVariable String accountNumber) {
-    
+
+    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.NO_ENERGY_REPORT_PHYS);
     TurnOffReportPhys turnOffReportPhys = turnOffreportPhysRepository.findByAccountNumber(accountNumber);
     return turnOffReportPhys != null ? turnOffReportPhys : null;
   }
 
   @GetMapping("/bill")
   public ResponseEntity<String> getBillForPhysicalCustomer(@PathVariable String accountNumber) {
-    
+
     statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.BILL);
     return billService.getBill(accountNumber);
   }
 
   @PostMapping("/indicator/onezone")
-  public ResponseEntity<String> saveIndicatorForOneZoneCounter(@PathVariable String accountNumber,
-      @Validated @RequestBody IndicatorOneZoneDTO oneZoneDTO, BindingResult result) {
-   
+  public ResponseEntity<String> saveIndicatorForOneZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorOneZoneDTO oneZoneDTO,
+      BindingResult result) {
+
     if (result.hasErrors()) {
       String message = result.getAllErrors().get(0).getDefaultMessage();
       return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
-    }
+    }  
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(oneZoneDTO.getIndicator());
@@ -79,9 +80,9 @@ public class PhysicalCustomerController {
   }
 
   @PostMapping("/indicator/twozone")
-  public ResponseEntity<String> saveIndicatorForTwoZoneCounter(@PathVariable String accountNumber,
-      @Validated @RequestBody IndicatorTwoZoneDTO twoZoneDTO, BindingResult result) {
-   
+  public ResponseEntity<String> saveIndicatorForTwoZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorTwoZoneDTO twoZoneDTO,
+      BindingResult result) {
+
     if (result.hasErrors()) {
       String message = result.getAllErrors().get(0).getDefaultMessage();
       return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
@@ -93,8 +94,8 @@ public class PhysicalCustomerController {
   }
 
   @PostMapping("/indicator/threezone")
-  public ResponseEntity<String> saveIndicatorForThreeZoneCounter(@PathVariable String accountNumber,
-      @Validated @RequestBody IndicatorThreeZoneDTO threeZoneDTO, BindingResult result) {
+  public ResponseEntity<String> saveIndicatorForThreeZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorThreeZoneDTO threeZoneDTO,
+      BindingResult result) {
 
     if (result.hasErrors()) {
       String message = result.getAllErrors().get(0).getDefaultMessage();
@@ -102,8 +103,7 @@ public class PhysicalCustomerController {
     }
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
-    indicatorDTO.setCounterValue(threeZoneDTO.getPeakIndicator() + "/" + threeZoneDTO.getHalfPeakIndicator() + "/"
-        + threeZoneDTO.getNightIndicator());
+    indicatorDTO.setCounterValue(threeZoneDTO.getPeakIndicator() + "/" + threeZoneDTO.getHalfPeakIndicator() + "/" + threeZoneDTO.getNightIndicator());
     return indicatorService.saveIndicator(indicatorDTO);
   }
 

@@ -17,23 +17,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableAsync
 public class AppConfiguration extends AsyncConfigurerSupport {
-  
+
   @Autowired
   private Environment environment;
 
   @Bean
   public WebMvcConfigurer corsConfigurer() {
+
     return new WebMvcConfigurerAdapter() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/customer/**").allowedMethods("GET", "POST", "OPTION")
-            .allowedOrigins(environment.getRequiredProperty("allow.origin"));
+        registry.addMapping("/customer/**").allowedMethods("GET", "POST", "OPTION").allowedOrigins(environment.getRequiredProperty("allow.origin"));
       }
     };
   }
-  
+
   @Override
   public Executor getAsyncExecutor() {
+
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(5);
     executor.setMaxPoolSize(10);
@@ -42,6 +43,5 @@ public class AppConfiguration extends AsyncConfigurerSupport {
     executor.initialize();
     return executor;
   }
-  
-  
+
 }
