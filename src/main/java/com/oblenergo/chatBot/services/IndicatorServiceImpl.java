@@ -1,7 +1,6 @@
 package com.oblenergo.chatBot.services;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +18,10 @@ import com.oblenergo.chatBot.enums.Reasons;
 public class IndicatorServiceImpl implements IndicatorService {
 
   private static final String DEFAULT_ERROR_MESSAGE = "Показник внесено невірно, просимо уточнити показник";
+
+  private static final int LAST_DAY_OF_MONTH_MAX_VALUE = 31;
+
+  private static final int FIRST_DAY_OF_MONTH = 1;
 
   @Value("${indicator.service.url}")
   private String url;
@@ -53,16 +56,9 @@ public class IndicatorServiceImpl implements IndicatorService {
 
   private boolean checkPeriod() {
 
-    LocalDate localDateNow = LocalDate.now();
-    int month = localDateNow.getMonthValue();
-    if (localDateNow.getMonth().equals(Month.DECEMBER)) {
-      LocalDate endDateExclusive = LocalDate.of(localDateNow.getYear(), Month.JANUARY, endPeriodDate);
-      LocalDate startDateInclusive = LocalDate.of(localDateNow.getYear(), month, beginPeriodDate);
-      return localDateNow.isBefore(endDateExclusive) && localDateNow.isAfter(startDateInclusive);
-    } else {
-      LocalDate endDateExclusive = LocalDate.of(localDateNow.getYear(), month + 1, endPeriodDate);
-      LocalDate startDateInclusive = LocalDate.of(localDateNow.getYear(), month, beginPeriodDate);
-      return localDateNow.isBefore(endDateExclusive) && localDateNow.isAfter(startDateInclusive);
-    }
+    int dayOfMonth = LocalDate.now().getDayOfMonth();
+    return dayOfMonth > beginPeriodDate && dayOfMonth <= LAST_DAY_OF_MONTH_MAX_VALUE || dayOfMonth < endPeriodDate && dayOfMonth >= FIRST_DAY_OF_MONTH;
   }
+  
+
 }

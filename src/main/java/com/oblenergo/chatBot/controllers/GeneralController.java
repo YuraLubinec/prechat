@@ -47,7 +47,7 @@ public class GeneralController {
     log.error("Error in http request syntax", e);
   }
 
-  @ExceptionHandler(Exception.class)
+  @ExceptionHandler(RuntimeException.class)
   @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = DEFAULTFAILUREMESSAGE)
   public void error500Default(Exception e) {
 

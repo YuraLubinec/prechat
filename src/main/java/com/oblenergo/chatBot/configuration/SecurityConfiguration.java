@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,19 +21,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    String[] antPatternsGet = { "/customer/physical/{\\d+}", "/customer/physical/{\\d+}/report", "/customer/physical/{\\d+}/bill",
-        "/customer/juridical/*/*/report", "/customer/juridical/*/*" };
-    String[] antPatternsPost = { "/customer/physical/{\\d+}/indicator/onezone", "/customer/physical/{\\d+}/indicator/twozone",
-        "/customer/physical/{\\d+}/indicator/threezone" };
 
-    http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET, antPatternsGet).permitAll().antMatchers(HttpMethod.POST, antPatternsPost).permitAll()
-        .anyRequest().authenticated().and().httpBasic().realmName(REALM).authenticationEntryPoint(entryPoint).and().cors().and().sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic().realmName(REALM).authenticationEntryPoint(entryPoint).and().cors()
+        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.inMemoryAuthentication().withUser("secretuser").password("supersecret").roles("admin");
+  }
+
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    String[] antPatternsGet = { "/customer/physical/{accountNumber:\\d+}", "/customer/physical/{accountNumber:\\d+}/report", "/customer/physical/{accountNumber:\\d+}/bill",
+        "/customer/juridical/{contractNumber:[a-zA-z0-9]+}/{counterNumber:[a-zA-z0-9]+}/report", "/customer/juridical/{contractNumber:[a-zA-z0-9]+}/{counterNumber:[a-zA-z0-9]+}" };
+    String[] antPatternsPost = { "/customer/physical/{accountNumber:\\d+}/indicator/onezone", "/customer/physical/{accountNumber:\\d+}/indicator/twozone",
+        "/customer/physical/{accountNumber:\\d+}/indicator/threezone" };
+
+    web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+    web.ignoring().antMatchers(HttpMethod.GET, antPatternsGet);
+    web.ignoring().antMatchers(HttpMethod.POST, antPatternsPost);
   }
 
 }
