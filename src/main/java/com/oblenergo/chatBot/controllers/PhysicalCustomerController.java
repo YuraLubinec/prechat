@@ -47,15 +47,15 @@ public class PhysicalCustomerController {
 
   @GetMapping
   public PhysCustomer checkId(@PathVariable String accountNumber) {
-    PhysCustomer customer = physCustomerRepository.findByAccountNumber(accountNumber);
-    return customer != null ? customer : null;
+  
+    return physCustomerRepository.findByAccountNumber(accountNumber);
   }
 
   @GetMapping("/report")
   public TurnOffReportPhys getEnergyReport(@PathVariable String accountNumber) {
 
-    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.NOENERGYREPORTPHYS);
     TurnOffReportPhys turnOffReportPhys = turnOffreportPhysRepository.findByAccountNumber(accountNumber);
+    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.NOENERGYREPORTPHYS);
     return turnOffReportPhys != null ? turnOffReportPhys : null;
   }
 

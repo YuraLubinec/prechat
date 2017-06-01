@@ -11,7 +11,7 @@ import lombok.Data;
 public class IndicatorResponseDTO implements Serializable {
 
   private static final long serialVersionUID = 490334213732184514L;
-  
+
   private String answer;
 
 }

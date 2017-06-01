@@ -1,4 +1,4 @@
-package com.oblenergo.chatBot.configuration;
+package com.oblenergo.chatBot.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

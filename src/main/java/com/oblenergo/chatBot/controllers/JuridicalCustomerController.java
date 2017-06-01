@@ -29,15 +29,14 @@ public class JuridicalCustomerController {
   @GetMapping
   public JuridicalCustomer checkContractNumber(@PathVariable String contractNumber, @PathVariable String counterNumber) {
 
-    JuridicalCustomer juridicalCustomer = juridicalCustomerRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
-    return juridicalCustomer != null ? juridicalCustomer : null;
+    return juridicalCustomerRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
   }
 
   @GetMapping("/report")
   public TurnOffReportJur getEnergyReport(@PathVariable String contractNumber, @PathVariable String counterNumber) {
     
-    statisticService.saveStatisticForJurCustomer(contractNumber, counterNumber, Reasons.NOENERGYREPORTJUR);
     TurnOffReportJur turnOffReportJur = juReportJurRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
+    statisticService.saveStatisticForJurCustomer(contractNumber, counterNumber, Reasons.NOENERGYREPORTJUR);
     return turnOffReportJur != null ? turnOffReportJur : null;
   }
 
