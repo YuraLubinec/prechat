@@ -24,6 +24,7 @@ public class GeneralController {
   public void errorHttpStatus(HttpStatusCodeException e) {
 
     log.error("Error occurred with indicator service" + e.getStatusCode().value(), e);
+    throw e;
   }
 
   @ExceptionHandler(RestClientException.class)
@@ -31,6 +32,7 @@ public class GeneralController {
   public void errorRestClient(RestClientException e) {
 
     log.error("Error occurred with indicator service", e);
+    throw e;
   }
 
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -38,6 +40,7 @@ public class GeneralController {
   public void errorMethodNotSupported(Exception e) {
 
     log.error("Method isn`t supported", e);
+    throw new RuntimeException();
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -45,14 +48,15 @@ public class GeneralController {
   public void errorHttpMessageNotReadable(HttpMessageNotReadableException e) {
 
     log.error("Error in http request syntax", e);
+    throw e;
   }
 
   @ExceptionHandler(RuntimeException.class)
   @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = DEFAULTFAILUREMESSAGE)
-  public void error500Default(Exception e) {
+  public void error500Default(RuntimeException e) {
 
     log.error("Server error occurred", e);
-    throw new RuntimeException();
+    throw e;
   }
 
 }

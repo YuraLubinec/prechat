@@ -36,7 +36,7 @@ public class JuridicalCustomerController {
   @GetMapping("/report")
   public TurnOffReportJur getEnergyReport(@PathVariable String contractNumber, @PathVariable String counterNumber) {
     
-    statisticService.saveStatisticForJurCustomer(contractNumber, counterNumber, Reasons.NO_ENERGY_REPORT_JUR);
+    statisticService.saveStatisticForJurCustomer(contractNumber, counterNumber, Reasons.NOENERGYREPORTJUR);
     TurnOffReportJur turnOffReportJur = juReportJurRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
     return turnOffReportJur != null ? turnOffReportJur : null;
   }

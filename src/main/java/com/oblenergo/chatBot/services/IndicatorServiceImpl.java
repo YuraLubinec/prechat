@@ -43,10 +43,9 @@ public class IndicatorServiceImpl implements IndicatorService {
       HttpEntity<IndicatorDTO> request = new HttpEntity<>(indicator);
       IndicatorResponseDTO responseDTO = template.postForObject(url, request, IndicatorResponseDTO.class);
       if (responseDTO.getAnswer() != null) {
-
+        statisticService.saveStatisticForPhysCustomer(indicator.getAccountNumber(), Reasons.INDICATOR);
         return new ResponseEntity<String>(responseDTO.getAnswer(), HttpStatus.OK);
       } else {
-        statisticService.saveStatisticForPhysCustomer(indicator.getAccountNumber(), Reasons.INDICATOR);
         return new ResponseEntity<String>(DEFAULT_ERROR_MESSAGE, HttpStatus.BAD_REQUEST);
       }
     } else {

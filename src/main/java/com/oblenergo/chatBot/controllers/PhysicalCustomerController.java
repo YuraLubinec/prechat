@@ -54,7 +54,7 @@ public class PhysicalCustomerController {
   @GetMapping("/report")
   public TurnOffReportPhys getEnergyReport(@PathVariable String accountNumber) {
 
-    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.NO_ENERGY_REPORT_PHYS);
+    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.NOENERGYREPORTPHYS);
     TurnOffReportPhys turnOffReportPhys = turnOffreportPhysRepository.findByAccountNumber(accountNumber);
     return turnOffReportPhys != null ? turnOffReportPhys : null;
   }

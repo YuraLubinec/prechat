@@ -2,8 +2,8 @@ package com.oblenergo.chatBot.enums;
 
 public enum Reasons {
 
-  INDICATOR("indicator"), BILL("bill"), CONSULTATION("consultation"), NO_ENERGY_REPORT_JUR(
-      "report_jur"), NO_ENERGY_REPORT_PHYS("report_phys");
+  INDICATOR("indicator"), BILL("bill"), CONSULTATION("consultation"), NOENERGYREPORTJUR(
+      "reportJur"), NOENERGYREPORTPHYS("reportPhys");
 
   private String reason;
 
