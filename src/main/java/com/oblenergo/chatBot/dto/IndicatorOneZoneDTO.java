@@ -16,8 +16,8 @@ public class IndicatorOneZoneDTO implements Serializable {
 
   private static final long serialVersionUID = -7178779695229018079L;
   
-  @NotBlank(message="Не може бути пустим")
-  @Pattern(regexp="\\d+", message="Дозволено тільки цифри")
+  @NotBlank
+  @Pattern(regexp="\\d+")
   private String indicator;
 
 }

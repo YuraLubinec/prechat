@@ -16,12 +16,12 @@ public class IndicatorTwoZoneDTO implements Serializable {
 
   private static final long serialVersionUID = 411358646302415484L;
 
-  @NotBlank(message = "Не може бути пустим")
-  @Pattern(regexp = "\\d+", message = "Дозволено тільки цифри")
+  @NotBlank
+  @Pattern(regexp = "\\d+")
   private String dayIndicator;
 
   @NotBlank(message = "Не може бути пустим")
-  @Pattern(regexp = "\\d+", message = "Дозволено тільки цифри")
+  @Pattern(regexp = "\\d+")
   private String nightIndicator;
 
 }

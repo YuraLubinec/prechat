@@ -16,16 +16,16 @@ public class IndicatorThreeZoneDTO implements Serializable {
 
   private static final long serialVersionUID = -2474510251196774785L;
 
-  @NotBlank(message = "Не може бути пустим")
-  @Pattern(regexp = "\\d+", message = "Дозволено тільки цифри")
+  @NotBlank
+  @Pattern(regexp = "\\d+")
   private String peakIndicator;
 
-  @NotBlank(message = "Не може бути пустим")
-  @Pattern(regexp = "\\d+", message = "Дозволено тільки цифри")
+  @NotBlank
+  @Pattern(regexp = "\\d+")
   private String halfPeakIndicator;
 
-  @NotBlank(message = "Не може бути пустим")
-  @Pattern(regexp = "\\d+", message = "Дозволено тільки цифри")
+  @NotBlank
+  @Pattern(regexp = "\\d+")
   private String nightIndicator;
   
 }

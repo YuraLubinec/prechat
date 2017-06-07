@@ -1,9 +1,7 @@
 package com.oblenergo.chatBot.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,13 +65,8 @@ public class PhysicalCustomerController {
   }
 
   @PostMapping("/indicator/onezone")
-  public ResponseEntity<String> saveIndicatorForOneZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorOneZoneDTO oneZoneDTO,
-      BindingResult result) {
+  public ResponseEntity<String> saveIndicatorForOneZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorOneZoneDTO oneZoneDTO) {
 
-    if (result.hasErrors()) {
-      String message = result.getAllErrors().get(0).getDefaultMessage();
-      return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
-    }  
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(oneZoneDTO.getIndicator());
@@ -81,13 +74,8 @@ public class PhysicalCustomerController {
   }
 
   @PostMapping("/indicator/twozone")
-  public ResponseEntity<String> saveIndicatorForTwoZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorTwoZoneDTO twoZoneDTO,
-      BindingResult result) {
+  public ResponseEntity<String> saveIndicatorForTwoZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorTwoZoneDTO twoZoneDTO) {
 
-    if (result.hasErrors()) {
-      String message = result.getAllErrors().get(0).getDefaultMessage();
-      return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
-    }
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(twoZoneDTO.getDayIndicator() + "/" + twoZoneDTO.getNightIndicator());
@@ -95,13 +83,8 @@ public class PhysicalCustomerController {
   }
 
   @PostMapping("/indicator/threezone")
-  public ResponseEntity<String> saveIndicatorForThreeZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorThreeZoneDTO threeZoneDTO,
-      BindingResult result) {
+  public ResponseEntity<String> saveIndicatorForThreeZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorThreeZoneDTO threeZoneDTO) {
 
-    if (result.hasErrors()) {
-      String message = result.getAllErrors().get(0).getDefaultMessage();
-      return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
-    }
     IndicatorDTO indicatorDTO = new IndicatorDTO();
     indicatorDTO.setAccountNumber(accountNumber);
     indicatorDTO.setCounterValue(threeZoneDTO.getPeakIndicator() + "/" + threeZoneDTO.getHalfPeakIndicator() + "/" + threeZoneDTO.getNightIndicator());
