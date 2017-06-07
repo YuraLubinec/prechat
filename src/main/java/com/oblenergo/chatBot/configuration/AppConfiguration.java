@@ -20,7 +20,7 @@ public class AppConfiguration extends AsyncConfigurerSupport {
 
   @Autowired
   private Environment environment;
-
+  
   @Bean
   public WebMvcConfigurer corsConfigurer() {
 
@@ -34,7 +34,7 @@ public class AppConfiguration extends AsyncConfigurerSupport {
 
   @Override
   public Executor getAsyncExecutor() {
-
+    
     ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
     executor.setCorePoolSize(5);
     executor.setMaxPoolSize(10);

@@ -17,39 +17,39 @@ import com.oblenergo.chatBot.repositories.StatisticRepository;
 @Service
 @Transactional
 public class StatisticServiceImpl implements StatisticService {
-  
+
   @Autowired
   private StatisticRepository statisticRepository;
-  
+
   @Autowired
   private JuridicalCustomerRepository juridicalCustomerRepository;
-  
+
   @Autowired
   private PhysCustomerRepository physCustomerRepository;
-  
+
   @Async
   @Override
-  public void saveStatisticForPhysCustomer(String accountNumber, Reasons reason){
+  public void saveStatisticForPhysCustomer(String accountNumber, Reasons reason) {
 
-    Statistic statistic = new Statistic();
-    statistic.setDate(LocalDateTime.now().toString());
-    statistic.setAccountNumber(accountNumber);
-    statistic.setReason(reason);
-    if (physCustomerRepository.findByAccountNumber(accountNumber) != null){
+    if (physCustomerRepository.findByAccountNumber(accountNumber) != null) {
+      Statistic statistic = new Statistic();
+      statistic.setDate(LocalDateTime.now().toString());
+      statistic.setAccountNumber(accountNumber);
+      statistic.setReason(reason);
       statisticRepository.save(statistic);
     }
   }
-  
+
   @Async
   @Override
-  public void saveStatisticForJurCustomer(String contractNumber, String counterNumber, Reasons reason){
+  public void saveStatisticForJurCustomer(String contractNumber, String counterNumber, Reasons reason) {
 
-    Statistic statistic = new Statistic();
-    statistic.setDate(LocalDateTime.now().toString());
-    statistic.setContractNumber(contractNumber);
-    statistic.setCounterNumber(counterNumber);
-    statistic.setReason(reason);
-    if(juridicalCustomerRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber) != null){
+    if (juridicalCustomerRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber) != null) {
+      Statistic statistic = new Statistic();
+      statistic.setDate(LocalDateTime.now().toString());
+      statistic.setContractNumber(contractNumber);
+      statistic.setCounterNumber(counterNumber);
+      statistic.setReason(reason);
       statisticRepository.save(statistic);
     }
   }

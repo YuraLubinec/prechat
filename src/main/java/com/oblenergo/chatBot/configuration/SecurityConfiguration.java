@@ -33,10 +33,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(WebSecurity web) throws Exception {
-    String[] antPatternsGet = { "/customer/physical/{accountNumber:\\d+}", "/customer/physical/{accountNumber:\\d+}/report", "/customer/physical/{accountNumber:\\d+}/bill",
-        "/customer/juridical/{contractNumber:[a-zA-z0-9]+}/{counterNumber:[a-zA-z0-9]+}/report", "/customer/juridical/{contractNumber:[a-zA-z0-9]+}/{counterNumber:[a-zA-z0-9]+}" };
+    String[] antPatternsGet = { "/customer/physical/{accountNumber:\\d+}", "/customer/physical/{accountNumber:\\d+}/report",
+        "/customer/physical/{accountNumber:\\d+}/bill" };
     String[] antPatternsPost = { "/customer/physical/{accountNumber:\\d+}/indicator/onezone", "/customer/physical/{accountNumber:\\d+}/indicator/twozone",
-        "/customer/physical/{accountNumber:\\d+}/indicator/threezone" };
+        "/customer/physical/{accountNumber:\\d+}/indicator/threezone", "/customer/juridical/report", "/customer/juridical" };
 
     web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     web.ignoring().antMatchers(HttpMethod.GET, antPatternsGet);

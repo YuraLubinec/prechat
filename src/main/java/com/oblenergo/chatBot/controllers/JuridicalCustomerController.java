@@ -1,11 +1,17 @@
 package com.oblenergo.chatBot.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.oblenergo.chatBot.dto.JuridicalIdentifier;
 import com.oblenergo.chatBot.enums.Reasons;
 import com.oblenergo.chatBot.models.JuridicalCustomer;
 import com.oblenergo.chatBot.models.TurnOffReportJur;
@@ -14,7 +20,7 @@ import com.oblenergo.chatBot.repositories.TurnOffReportJurRepository;
 import com.oblenergo.chatBot.services.StatisticService;
 
 @RestController
-@RequestMapping("/customer/juridical/{contractNumber}/{counterNumber}")
+@RequestMapping("/customer/juridical")
 public class JuridicalCustomerController {
 
   @Autowired
@@ -26,18 +32,28 @@ public class JuridicalCustomerController {
   @Autowired
   private StatisticService statisticService;
 
-  @GetMapping
-  public JuridicalCustomer checkContractNumber(@PathVariable String contractNumber, @PathVariable String counterNumber) {
+  @PostMapping
+  public ResponseEntity<?> JuridicalCustomercheckContractNumber(@Validated @RequestBody JuridicalIdentifier identifier, BindingResult result) {
 
-    return juridicalCustomerRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
+    if (result.hasErrors()) {
+      String message = result.getAllErrors().get(0).getDefaultMessage();
+      return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
+    }
+    return new ResponseEntity<JuridicalCustomer>(
+        juridicalCustomerRepository.findByContractNumberAndCounterNumber(identifier.getContractNumber(), identifier.getCounterNumber()), HttpStatus.OK);
   }
 
-  @GetMapping("/report")
-  public TurnOffReportJur getEnergyReport(@PathVariable String contractNumber, @PathVariable String counterNumber) {
-    
-    TurnOffReportJur turnOffReportJur = juReportJurRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
+  @PostMapping("/report")
+  public ResponseEntity<?> getEnergyReport(@Validated @RequestBody JuridicalIdentifier identifier, BindingResult result) {
+
+    if (result.hasErrors()) {
+      String message = result.getAllErrors().get(0).getDefaultMessage();
+      return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
+    }
+    String contractNumber = identifier.getContractNumber();
+    String counterNumber = identifier.getCounterNumber();
     statisticService.saveStatisticForJurCustomer(contractNumber, counterNumber, Reasons.NOENERGYREPORTJUR);
-    return turnOffReportJur != null ? turnOffReportJur : null;
+    return new ResponseEntity<TurnOffReportJur>(juReportJurRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber), HttpStatus.OK);
   }
 
 }
