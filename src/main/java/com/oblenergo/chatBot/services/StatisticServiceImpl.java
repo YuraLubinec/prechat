@@ -42,13 +42,12 @@ public class StatisticServiceImpl implements StatisticService {
 
   @Async
   @Override
-  public void saveStatisticForJurCustomer(String contractNumber, String counterNumber, Reasons reason) {
+  public void saveStatisticForJurCustomer(String contractNumber, Reasons reason) {
 
-    if (juridicalCustomerRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber) != null) {
+    if (juridicalCustomerRepository.findTopByContractNumber(contractNumber) != null) {
       Statistic statistic = new Statistic();
       statistic.setDate(LocalDateTime.now().toString());
       statistic.setContractNumber(contractNumber);
-      statistic.setCounterNumber(counterNumber);
       statistic.setReason(reason);
       statisticRepository.save(statistic);
     }

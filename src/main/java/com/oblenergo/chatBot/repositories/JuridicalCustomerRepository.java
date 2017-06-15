@@ -8,6 +8,6 @@ import com.oblenergo.chatBot.models.JuridicalCustomer;
 public interface JuridicalCustomerRepository extends JpaRepository<JuridicalCustomer, Long> {
   
   @Transactional(readOnly=true)
-  JuridicalCustomer findByContractNumberAndCounterNumber(String contractNumber, String counterNumber);
+  JuridicalCustomer findTopByContractNumber(String contractNumber);
 
 }

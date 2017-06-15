@@ -17,13 +17,13 @@ public class TurnOffReportPhys implements Serializable {
   private static final long serialVersionUID = 7897348277407699052L;
 
   @Id
-  @Column(name = "id")
-  private long id;
   @Column(name = "accountNumber")
   private String accountNumber;
-  @Column(name = "beginTurnOff")
-  private String beginTurnOff;
+  @Column(name = "scenarioId")
+  private int scenarioId;
   @Column(name = "endTurnOff")
   private String endTurnOff;
+  @Column(name = "fullAddress")
+  private String fullAddress;
 
 }

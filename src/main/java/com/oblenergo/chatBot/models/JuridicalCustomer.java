@@ -21,7 +21,4 @@ public class JuridicalCustomer implements Serializable {
   private int id;
   @Column(name = "contractNumber")
   private String contractNumber;
-  @Column(name = "counterNumber")
-  private String counterNumber;
-
 }

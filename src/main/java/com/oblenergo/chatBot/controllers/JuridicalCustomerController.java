@@ -1,5 +1,7 @@
 package com.oblenergo.chatBot.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -10,41 +12,33 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oblenergo.chatBot.dto.JuridicalIdentifier;
-import com.oblenergo.chatBot.enums.Reasons;
+import com.oblenergo.chatBot.dto.TurnOffReportDTO;
 import com.oblenergo.chatBot.models.JuridicalCustomer;
-import com.oblenergo.chatBot.models.TurnOffReportJur;
 import com.oblenergo.chatBot.repositories.JuridicalCustomerRepository;
-import com.oblenergo.chatBot.repositories.TurnOffReportJurRepository;
-import com.oblenergo.chatBot.services.StatisticService;
+import com.oblenergo.chatBot.services.ReportService;
 
 @RestController
 @RequestMapping("/customer/juridical")
 public class JuridicalCustomerController {
 
   @Autowired
-  private TurnOffReportJurRepository juReportJurRepository;
-
-  @Autowired
   private JuridicalCustomerRepository juridicalCustomerRepository;
-
+  
   @Autowired
-  private StatisticService statisticService;
+  private ReportService reportService;
 
   @PostMapping
   @ResponseStatus(HttpStatus.OK)
   public JuridicalCustomer JuridicalCustomercheckContractNumber(@Validated @RequestBody JuridicalIdentifier identifier) {
-
-    return juridicalCustomerRepository.findByContractNumberAndCounterNumber(identifier.getContractNumber(), identifier.getCounterNumber());
+ 
+    return juridicalCustomerRepository.findTopByContractNumber(identifier.getContractNumber());
   }
 
   @PostMapping("/report")
   @ResponseStatus(HttpStatus.OK)
-  public TurnOffReportJur getEnergyReport(@Validated @RequestBody JuridicalIdentifier identifier) {
+  public List<TurnOffReportDTO> getEnergyReport(@Validated @RequestBody JuridicalIdentifier identifier) {
 
-    String contractNumber = identifier.getContractNumber();
-    String counterNumber = identifier.getCounterNumber();
-    statisticService.saveStatisticForJurCustomer(contractNumber, counterNumber, Reasons.NOENERGYREPORTJUR);
-    return juReportJurRepository.findByContractNumberAndCounterNumber(contractNumber, counterNumber);
+    return reportService.getTurnOffReportjJur(identifier.getContractNumber());
   }
 
 }

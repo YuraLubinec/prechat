@@ -10,18 +10,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.oblenergo.chatBot.dto.IndicatorDTO;
 import com.oblenergo.chatBot.dto.IndicatorOneZoneDTO;
 import com.oblenergo.chatBot.dto.IndicatorThreeZoneDTO;
 import com.oblenergo.chatBot.dto.IndicatorTwoZoneDTO;
-import com.oblenergo.chatBot.enums.Reasons;
+import com.oblenergo.chatBot.dto.TurnOffReportDTO;
 import com.oblenergo.chatBot.models.PhysCustomer;
-import com.oblenergo.chatBot.models.TurnOffReportPhys;
 import com.oblenergo.chatBot.repositories.PhysCustomerRepository;
-import com.oblenergo.chatBot.repositories.TurnOffreportPhysRepository;
 import com.oblenergo.chatBot.services.BillService;
 import com.oblenergo.chatBot.services.IndicatorService;
-import com.oblenergo.chatBot.services.StatisticService;
+import com.oblenergo.chatBot.services.ReportService;
 
 @RestController
 @RequestMapping("/customer/physical/{accountNumber}")
@@ -31,7 +28,7 @@ public class PhysicalCustomerController {
   private PhysCustomerRepository physCustomerRepository;
 
   @Autowired
-  private TurnOffreportPhysRepository turnOffreportPhysRepository;
+  private ReportService reportService;
 
   @Autowired
   private IndicatorService indicatorService;
@@ -39,56 +36,41 @@ public class PhysicalCustomerController {
   @Autowired
   private BillService billService;
 
-  @Autowired
-  private StatisticService statisticService;
-
-
   @GetMapping
   public PhysCustomer checkId(@PathVariable String accountNumber) {
-  
+
     return physCustomerRepository.findByAccountNumber(accountNumber);
   }
 
   @GetMapping("/report")
-  public TurnOffReportPhys getEnergyReport(@PathVariable String accountNumber) {
+  public TurnOffReportDTO getEnergyReport(@PathVariable String accountNumber) {
 
-    TurnOffReportPhys turnOffReportPhys = turnOffreportPhysRepository.findByAccountNumber(accountNumber);
-    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.NOENERGYREPORTPHYS);
-    return turnOffReportPhys != null ? turnOffReportPhys : null;
+    return reportService.getTurnOffReportPhys(accountNumber);
   }
 
   @GetMapping("/bill")
   public ResponseEntity<String> getBillForPhysicalCustomer(@PathVariable String accountNumber) {
 
-    statisticService.saveStatisticForPhysCustomer(accountNumber, Reasons.BILL);
     return billService.getBill(accountNumber);
   }
 
   @PostMapping("/indicator/onezone")
   public ResponseEntity<String> saveIndicatorForOneZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorOneZoneDTO oneZoneDTO) {
 
-    IndicatorDTO indicatorDTO = new IndicatorDTO();
-    indicatorDTO.setAccountNumber(accountNumber);
-    indicatorDTO.setCounterValue(oneZoneDTO.getIndicator());
-    return indicatorService.saveIndicator(indicatorDTO);
+    return indicatorService.saveOneZoneIndicator(oneZoneDTO, accountNumber);
   }
 
   @PostMapping("/indicator/twozone")
   public ResponseEntity<String> saveIndicatorForTwoZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorTwoZoneDTO twoZoneDTO) {
 
-    IndicatorDTO indicatorDTO = new IndicatorDTO();
-    indicatorDTO.setAccountNumber(accountNumber);
-    indicatorDTO.setCounterValue(twoZoneDTO.getDayIndicator() + "/" + twoZoneDTO.getNightIndicator());
-    return indicatorService.saveIndicator(indicatorDTO);
+    return indicatorService.saveTwoZoneIndicator(twoZoneDTO, accountNumber);
   }
 
   @PostMapping("/indicator/threezone")
-  public ResponseEntity<String> saveIndicatorForThreeZoneCounter(@PathVariable String accountNumber, @Validated @RequestBody IndicatorThreeZoneDTO threeZoneDTO) {
+  public ResponseEntity<String> saveIndicatorForThreeZoneCounter(@PathVariable String accountNumber,
+      @Validated @RequestBody IndicatorThreeZoneDTO threeZoneDTO) {
 
-    IndicatorDTO indicatorDTO = new IndicatorDTO();
-    indicatorDTO.setAccountNumber(accountNumber);
-    indicatorDTO.setCounterValue(threeZoneDTO.getPeakIndicator() + "/" + threeZoneDTO.getHalfPeakIndicator() + "/" + threeZoneDTO.getNightIndicator());
-    return indicatorService.saveIndicator(indicatorDTO);
+    return indicatorService.saveThreeZoneIndicator(threeZoneDTO, accountNumber);
   }
 
 }

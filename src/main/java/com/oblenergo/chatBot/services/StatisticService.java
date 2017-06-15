@@ -5,7 +5,7 @@ import com.oblenergo.chatBot.enums.Reasons;
 public interface StatisticService {
 
   void saveStatisticForPhysCustomer(String accountNumber, Reasons reason);
-
-  void saveStatisticForJurCustomer(String contractNumber, String counterNumber, Reasons reason);
+  
+  void saveStatisticForJurCustomer(String contractNumber, Reasons reason);
 
 }

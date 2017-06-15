@@ -20,8 +20,4 @@ public class JuridicalIdentifier implements Serializable {
   @Pattern(regexp = "([(\\w)а-яА-я]+(\\/?))+")
   private String contractNumber;
   
-  @NotBlank
-  @Pattern(regexp = "\\d+")
-  private String counterNumber;
-  
 }

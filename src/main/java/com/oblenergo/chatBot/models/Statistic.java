@@ -17,7 +17,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "dbo.chatbotStatistic")
+@Table(name = "callcenter.chatbotStatistic")
 public class Statistic implements Serializable {
 
   private static final long serialVersionUID = -3653936311706121639L;
@@ -35,7 +35,5 @@ public class Statistic implements Serializable {
   private String accountNumber;
   @Column(name = "contractNumber")
   private String contractNumber;
-  @Column(name = "counterNumber")
-  private String counterNumber;
 
 }

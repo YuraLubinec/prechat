@@ -5,9 +5,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oblenergo.chatBot.models.TurnOffReportPhys;
 
-public interface TurnOffreportPhysRepository extends JpaRepository<TurnOffReportPhys, Long> {
+public interface TurnOffReportPhysRepository extends JpaRepository<TurnOffReportPhys, Long> {
   
   @Transactional(readOnly=true)
-  TurnOffReportPhys findByAccountNumber(String accountNumber);
+  TurnOffReportPhys findTopByAccountNumber(String accountNumber);
 
 }

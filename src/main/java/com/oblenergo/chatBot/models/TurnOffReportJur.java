@@ -21,11 +21,11 @@ public class TurnOffReportJur implements Serializable {
   private long id;
   @Column(name = "contractNumber")
   private String contractNumber;
-  @Column(name = "counterNumber")
-  private String counterNumber;
-  @Column(name = "beginTurnOff")
-  private String beginTurnOff;
   @Column(name = "endTurnOff")
   private String endTurnOff;
+  @Column(name = "scenarioId")
+  private int scenarioId;
+  @Column(name = "addressPoint")
+  private String fullAddress;
 
 }

@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.oblenergo.chatBot.dto.IndicatorDTO;
+import com.oblenergo.chatBot.dto.IndicatorOneZoneDTO;
 import com.oblenergo.chatBot.dto.IndicatorResponseDTO;
+import com.oblenergo.chatBot.dto.IndicatorThreeZoneDTO;
+import com.oblenergo.chatBot.dto.IndicatorTwoZoneDTO;
 import com.oblenergo.chatBot.enums.Reasons;
 
 @Service
@@ -36,7 +39,33 @@ public class IndicatorServiceImpl implements IndicatorService {
   private StatisticService statisticService;
 
   @Override
-  public ResponseEntity<String> saveIndicator(IndicatorDTO indicator) {
+  public ResponseEntity<String> saveOneZoneIndicator(IndicatorOneZoneDTO oneZoneDTO, String accountNumber) {
+
+    IndicatorDTO indicatorDTO = new IndicatorDTO();
+    indicatorDTO.setAccountNumber(accountNumber);
+    indicatorDTO.setCounterValue(oneZoneDTO.getIndicator());
+    return saveIndicator(indicatorDTO);
+  }
+
+  @Override
+  public ResponseEntity<String> saveTwoZoneIndicator(IndicatorTwoZoneDTO twoZoneDTO, String accountNumber) {
+    
+    IndicatorDTO indicatorDTO = new IndicatorDTO();
+    indicatorDTO.setAccountNumber(accountNumber);
+    indicatorDTO.setCounterValue(twoZoneDTO.getDayIndicator() + "/" + twoZoneDTO.getNightIndicator());
+    return saveIndicator(indicatorDTO);
+  }
+
+  @Override
+  public ResponseEntity<String> saveThreeZoneIndicator(IndicatorThreeZoneDTO threeZoneDTO, String accountNumber) {
+    
+    IndicatorDTO indicatorDTO = new IndicatorDTO();
+    indicatorDTO.setAccountNumber(accountNumber);
+    indicatorDTO.setCounterValue(threeZoneDTO.getPeakIndicator() + "/" + threeZoneDTO.getHalfPeakIndicator() + "/" + threeZoneDTO.getNightIndicator());
+    return saveIndicator(indicatorDTO);
+  }
+ 
+  private ResponseEntity<String> saveIndicator(IndicatorDTO indicator) {
 
     if (checkPeriod()) {
       RestTemplate template = new RestTemplate();
@@ -58,6 +87,5 @@ public class IndicatorServiceImpl implements IndicatorService {
     int dayOfMonth = LocalDate.now().getDayOfMonth();
     return dayOfMonth > beginPeriodDate && dayOfMonth <= LAST_DAY_OF_MONTH_MAX_VALUE || dayOfMonth < endPeriodDate && dayOfMonth >= FIRST_DAY_OF_MONTH;
   }
-  
 
 }
