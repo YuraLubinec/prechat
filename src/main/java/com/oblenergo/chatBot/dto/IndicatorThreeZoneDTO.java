@@ -3,6 +3,7 @@ package com.oblenergo.chatBot.dto;
 import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -18,14 +19,17 @@ public class IndicatorThreeZoneDTO implements Serializable {
 
   @NotBlank
   @Pattern(regexp = "\\d+")
+  @Size(max=8)
   private String peakIndicator;
 
   @NotBlank
   @Pattern(regexp = "\\d+")
+  @Size(max=8)
   private String halfPeakIndicator;
 
   @NotBlank
   @Pattern(regexp = "\\d+")
+  @Size(max=8)
   private String nightIndicator;
   
 }

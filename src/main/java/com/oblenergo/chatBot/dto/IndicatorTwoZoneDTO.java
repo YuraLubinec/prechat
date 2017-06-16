@@ -3,6 +3,7 @@ package com.oblenergo.chatBot.dto;
 import java.io.Serializable;
 
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -18,10 +19,12 @@ public class IndicatorTwoZoneDTO implements Serializable {
 
   @NotBlank
   @Pattern(regexp = "\\d+")
+  @Size(max=8)
   private String dayIndicator;
 
   @NotBlank(message = "Не може бути пустим")
   @Pattern(regexp = "\\d+")
+  @Size(max=8)
   private String nightIndicator;
 
 }
