@@ -3,7 +3,6 @@ package com.oblenergo.chatBot.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,11 +23,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic().realmName(REALM).authenticationEntryPoint(entryPoint).and().cors()
         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-  }
-
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication().withUser("secretuser").password("supersecret").roles("admin");
   }
 
   @Override

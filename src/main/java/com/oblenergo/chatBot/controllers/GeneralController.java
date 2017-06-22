@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 
-import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 
-@Log4j
+@Slf4j
 @RestControllerAdvice
 public class GeneralController {
 
@@ -40,7 +40,7 @@ public class GeneralController {
   @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = DEFAULTFAILUREMESSAGE)
   public void errorHttpStatus(HttpStatusCodeException e) {
 
-    log.error("Error occurred with indicator service" + e.getStatusCode().value(), e);
+    log.error("Error occurred with indicator service " + e.getStatusCode().value(), e);
     throw e;
   }
 
@@ -48,7 +48,7 @@ public class GeneralController {
   @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = DEFAULTFAILUREMESSAGE)
   public void errorRestClient(RestClientException e) {
 
-    log.error("Error occurred with indicator service", e);
+    log.error("Error occurred with indicator service ", e);
     throw e;
   }
 
@@ -68,12 +68,12 @@ public class GeneralController {
     throw e;
   }
 
-  @ExceptionHandler(RuntimeException.class)
+  @ExceptionHandler(Exception.class)
   @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = DEFAULTFAILUREMESSAGE)
-  public void error500Default(RuntimeException e) {
+  public void error500Default(Exception e) {
 
     log.error("Server error occurred", e);
-    throw e;
+    throw new RuntimeException(e.getMessage());
   }
 
 }

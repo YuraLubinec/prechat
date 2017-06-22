@@ -17,7 +17,7 @@ public class JuridicalIdentifier implements Serializable {
   private static final long serialVersionUID = 1194424216574565686L;
   
   @NotBlank
-  @Pattern(regexp = "([(\\w)а-яА-я]+(\\/?))+")
+  @Pattern(regexp = "([(\\w)а-яА-я]+(\\/?)+(-?))+")
   private String contractNumber;
   
 }
