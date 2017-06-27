@@ -18,9 +18,6 @@ public class TurnOffReportJur implements Serializable {
 
   private static final long serialVersionUID = -8183848564150608327L;
 
-//  @Id
-//  @Column(name = "id")
-//  private long id;
   @Id
   @Column(name = "contractNumber")
   private String contractNumber;

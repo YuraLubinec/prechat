@@ -27,4 +27,6 @@ public class IndicatorTwoZoneDTO implements Serializable {
   @Size(max=8)
   private String nightIndicator;
 
+  @Pattern(regexp = "(((\\+38)|(38))(\\d){10})|(\\d){10}")
+  private String phoneNumber;
 }
