@@ -85,7 +85,7 @@ public class IndicatorServiceImpl implements IndicatorService {
         responseDTO = template.postForObject(url, request, IndicatorResponseDTO.class);
       } catch (RestClientException e) {
         log.error("Error occurred with indicator service " + e);
-        return new ResponseEntity<String>(DEFAULTFAILUREMESSAGE, HttpStatus.OK);
+        return new ResponseEntity<String>(DEFAULTFAILUREMESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
       }
       
       if (responseDTO != null && responseDTO.getAnswer() != null) {

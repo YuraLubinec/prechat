@@ -46,7 +46,7 @@ public class BillServiceImpl implements BillService {
       return new ResponseEntity<String>(parseResponse(template.postForObject(url, request, String.class)), HttpStatus.OK);
     } catch (RestClientException e) {
       log.error("Error occurred with bill service " + e);
-      return new ResponseEntity<String>(DEFAULTFAILUREMESSAGE, HttpStatus.OK);
+      return new ResponseEntity<String>(DEFAULTFAILUREMESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
