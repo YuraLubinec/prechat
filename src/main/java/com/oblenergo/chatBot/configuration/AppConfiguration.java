@@ -17,10 +17,10 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     // for developing
-    registry.addMapping("/**");
+    // registry.addMapping("/**");
     // production
-    // registry.addMapping("/**").allowedMethods("GET", "POST", "OPTIONS")
-    // .allowedOrigins(environment.getRequiredProperty("allow.origin.local"),environment.getRequiredProperty("allow.origin.global")).allowCredentials(false);
+    registry.addMapping("/**").allowedMethods("GET", "POST", "OPTIONS").allowedOrigins(environment.getRequiredProperty("allow.origin.local"),
+        environment.getRequiredProperty("allow.origin.global1"), environment.getRequiredProperty("allow.origin.global2")).allowCredentials(false);
   }
 
 }
